@@ -1,11 +1,14 @@
 package com.mansao.characterhilt.di
 
+import com.mansao.characterhilt.BuildConfig
 import com.mansao.characterhilt.data.remote.ApiConst
 import com.mansao.characterhilt.data.remote.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -14,19 +17,29 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    @Provides
-    @Singleton
-    fun provideApi(builder: Retrofit.Builder): ApiService {
-        return builder
-            .build()
-            .create(ApiService::class.java)
-    }
 
-    @Provides
     @Singleton
-    fun provideRetrofit(): Retrofit.Builder {
+    @Provides
+    fun getApiService(): Retrofit {
+        val loggingInterceptor = if(BuildConfig.DEBUG) {
+            HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+        } else {
+            HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
+        }
+        val client = OkHttpClient.Builder()
+            .addInterceptor(loggingInterceptor)
+            .build()
         return Retrofit.Builder()
             .baseUrl(ApiConst.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideApiService(retrofit: Retrofit): ApiService {
+        val apiService: ApiService by lazy { retrofit.create(ApiService::class.java) }
+        return apiService
     }
 }
