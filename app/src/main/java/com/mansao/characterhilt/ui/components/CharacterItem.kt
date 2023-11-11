@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.mansao.characterhilt.data.local.model.CharacterModel
 import com.mansao.characterhilt.data.remote.response.GetAllCharactersResponseItem
 
 @Composable
@@ -30,5 +31,22 @@ fun CharacterItem(
         Text(text = character.actor)
 
     }
+}
 
+@Composable
+fun FavoriteCharacterItem(
+    character: CharacterModel,
+    modifier: Modifier = Modifier
+) {
+    val context = LocalContext.current
+    Column(modifier = modifier.fillMaxWidth()) {
+        AsyncImage(
+            model = ImageRequest.Builder(context)
+                .data(character.image)
+                .crossfade(true)
+                .build(), contentDescription = null
+        )
+
+        Text(text = character.name)
+    }
 }
