@@ -44,7 +44,8 @@ fun FavoriteCharacterItem(
             model = ImageRequest.Builder(context)
                 .data(character.image)
                 .crossfade(true)
-                .build(), contentDescription = null
+                .build(), contentDescription = null,
+            modifier = modifier.align(Alignment.CenterHorizontally)
         )
 
         Text(text = character.name)
