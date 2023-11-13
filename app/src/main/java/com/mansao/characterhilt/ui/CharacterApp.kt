@@ -10,10 +10,13 @@ import com.mansao.characterhilt.ui.navigation.Screen
 import com.mansao.characterhilt.ui.screen.favorite.FavoriteScreen
 import com.mansao.characterhilt.ui.screen.home.HomeScreen
 import com.mansao.characterhilt.ui.screen.home.HomeViewModel
+import com.mansao.characterhilt.ui.screen.setting.SettingScreen
 
 @Composable
 fun CharacterApp(
-    navHostController: NavHostController = rememberNavController()
+    navHostController: NavHostController = rememberNavController(),
+    onDarkModeChanged: (Boolean) -> Unit
+
 ) {
     NavHost(navController = navHostController, startDestination = Screen.Home.route) {
         composable(Screen.Home.route) {
@@ -22,12 +25,19 @@ fun CharacterApp(
                 uiState = homeViewModel.uiState,
                 navigateToFavorite = {
                     navHostController.navigate(Screen.Favorite.route)
+                },
+                navigateToSetting = {
+                    navHostController.navigate(Screen.Setting.route)
                 }
             )
         }
 
         composable(Screen.Favorite.route) {
             FavoriteScreen()
+        }
+
+        composable(Screen.Setting.route) {
+            SettingScreen(onDarkModeChanged = onDarkModeChanged)
         }
     }
 }

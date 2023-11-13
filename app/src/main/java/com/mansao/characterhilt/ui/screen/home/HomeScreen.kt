@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,7 +29,9 @@ import com.mansao.characterhilt.ui.components.CharacterItem
 fun HomeScreen(
     uiState: HomeUiState,
     homeViewModel: HomeViewModel = hiltViewModel(),
-    navigateToFavorite: () -> Unit
+    navigateToFavorite: () -> Unit,
+    navigateToSetting: () -> Unit
+
 ) {
     val context = LocalContext.current
     when (uiState) {
@@ -36,7 +39,8 @@ fun HomeScreen(
         is HomeUiState.Success -> HomeContent(
             character = uiState.data,
             homeViewModel = homeViewModel,
-            navigateToFavorite = navigateToFavorite
+            navigateToFavorite = navigateToFavorite,
+            navigateToSetting = navigateToSetting
         )
 
         is HomeUiState.Error -> {
@@ -51,11 +55,18 @@ fun HomeScreen(
 fun HomeContent(
     character: List<GetAllCharactersResponseItem>,
     homeViewModel: HomeViewModel,
-    navigateToFavorite: () -> Unit
+    navigateToFavorite: () -> Unit,
+    navigateToSetting: () -> Unit
+
 ) {
     val context = LocalContext.current
     Scaffold(
-        topBar = { HomeTopBar(navigateToFavorite = navigateToFavorite) }
+        topBar = {
+            HomeTopBar(
+                navigateToFavorite = navigateToFavorite,
+                navigateToSetting = navigateToSetting
+            )
+        }
     ) {
         Surface(modifier = Modifier.padding(it)) {
             LazyColumn {
@@ -79,12 +90,16 @@ fun HomeContent(
 @ExperimentalMaterial3Api
 @Composable
 fun HomeTopBar(
-    navigateToFavorite: () -> Unit
+    navigateToFavorite: () -> Unit,
+    navigateToSetting: () -> Unit
 ) {
     TopAppBar(title = { Text(text = "Home") },
         actions = {
             IconButton(onClick = { navigateToFavorite() }) {
                 Icon(imageVector = Icons.Default.Favorite, contentDescription = "favorite")
+            }
+            IconButton(onClick = { navigateToSetting() }) {
+                Icon(imageVector = Icons.Default.Settings, contentDescription = "setting")
             }
         })
 }

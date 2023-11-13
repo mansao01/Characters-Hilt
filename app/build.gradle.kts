@@ -64,15 +64,20 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material:material-icons-extended:1.4.3")
+
 
 
     //  coil
     implementation("io.coil-kt:coil-compose:2.4.0")
+
 //    viewModel
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+
     //    Navigation
     implementation("androidx.navigation:navigation-compose:2.7.4")
+
 // retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
@@ -87,6 +92,10 @@ dependencies {
     implementation("androidx.room:room-runtime:${rootProject.extra["room_version"]}")
     ksp("androidx.room:room-compiler:${rootProject.extra["room_version"]}")
     implementation("androidx.room:room-ktx:${rootProject.extra["room_version"]}")
+
+    // Datastore
+    implementation( "androidx.datastore:datastore-preferences:1.0.0")
+
 
 
     testImplementation("junit:junit:4.13.2")
