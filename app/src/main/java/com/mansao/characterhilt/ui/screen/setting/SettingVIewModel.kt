@@ -6,7 +6,6 @@ import com.mansao.characterhilt.data.preferences.SettingPreferences
 import com.mansao.characterhilt.ui.common.SettingUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -22,7 +21,6 @@ class SettingVIewModel @Inject constructor(private val settingPreferences: Setti
         started = SharingStarted.WhileSubscribed(),
         initialValue = SettingUiState.SettingUiState()
     )
-    val uiState: StateFlow<SettingUiState.SettingUiState> = isDarkMode
 
     fun selectedTheme(isDarkMode: Boolean) {
         viewModelScope.launch {

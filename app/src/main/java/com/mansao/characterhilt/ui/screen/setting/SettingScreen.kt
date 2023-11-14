@@ -32,11 +32,11 @@ fun SettingContent(
     settingViewModel: SettingVIewModel,
     onDarkModeChanged: (Boolean) -> Unit
 ) {
-    val uiState by settingViewModel.uiState.collectAsState()
+    val isDarkMode by settingViewModel.isDarkMode.collectAsState()
 
     val icon: (@Composable () -> Unit) = {
         Icon(
-            imageVector = uiState.icon,
+            imageVector = isDarkMode.icon,
             contentDescription = null,
             modifier = Modifier.size(SwitchDefaults.IconSize)
         )
@@ -47,9 +47,9 @@ fun SettingContent(
             .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        Text(text = uiState.title, modifier = Modifier.padding(top = 4.dp), fontSize = 20.sp)
+        Text(text = isDarkMode.title, modifier = Modifier.padding(top = 4.dp), fontSize = 20.sp)
         Switch(
-            checked = uiState.isDarkMode,
+            checked = isDarkMode.isDarkMode,
             onCheckedChange = { isChecked ->
                 settingViewModel.selectedTheme(isChecked)
                 onDarkModeChanged(isChecked)
